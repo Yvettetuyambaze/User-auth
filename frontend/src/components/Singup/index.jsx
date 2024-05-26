@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+import { GoogleLogin } from 'react-google-login';
 
 const Signup = () => {
 	const [data, setData] = useState({
@@ -32,13 +33,26 @@ const Signup = () => {
 				setError(error.response.data.message);
 			}
 		}
+
 	};
+
+	const handleGoogleLogin = async (googleData) => {
+		try {
+		  const res = await axios.post('http://localhost:8080/api/auth/google', {
+			token: googleData.tokenId,
+		  });
+		  localStorage.setItem('token', res.data.data);
+		  window.location = '/';
+		} catch (error) {
+		  console.log(error);
+		}
+	  };
 
 	return (
 		<div className={styles.signup_container}>
 			<div className={styles.signup_form_container}>
 				<div className={styles.left}>
-					<h1>Welcome Back</h1>
+					<h1>Have an account?</h1>
 					<Link to="/login">
 						<button type="button" className={styles.white_btn}>
 							Sign in
@@ -46,8 +60,19 @@ const Signup = () => {
 					</Link>
 				</div>
 				<div className={styles.right}>
+				<h2>Sign up with Google</h2>
+		   <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="Log in with Google"
+            onSuccess={handleGoogleLogin}
+            onFailure={handleGoogleLogin}
+            cookiePolicy={'single_host_origin'}
+            className={styles.google_btn}
+          />
+		  
+           <span>OR</span>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
-						<h1>Create Account</h1>
+						<h2>Create Account</h2>
 						<input
 							type="text"
 							placeholder="First Name"

@@ -5,6 +5,10 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const { OAuth2Client } = require('google-auth-library');
+const jwt = require('jsonwebtoken');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 router.post("/", async (req, res) => {
 	try {
@@ -46,12 +50,40 @@ router.post("/", async (req, res) => {
 	}
 });
 
-const validate = (data) => {
+router.post('/google', async (req, res) => {
+	const { token } = req.body;
+	const ticket = await client.verifyIdToken({
+	  idToken: token,
+	  audience: process.env.GOOGLE_CLIENT_ID,
+	});
+	const payload = ticket.getPayload();
+	const userId = payload['sub'];
+  
+	// Check if the user already exists in your database
+	let user = await User.findOne({ email: payload.email });
+	if (!user) {
+	  // If the user doesn't exist, create a new user
+	  user = await new User({
+		firstName: payload.given_name,
+		lastName: payload.family_name,
+		email: payload.email,
+		password: '',
+		verified: true,
+	  }).save();
+	}
+  
+	// Generate a JWT token for the user
+	const jwtToken = user.generateAuthToken();
+  
+	res.status(200).send({ data: jwtToken, message: "Logged in successfully" });
+  });
+  
+  const validate = (data) => {
 	const schema = Joi.object({
-		email: Joi.string().email().required().label("Email"),
-		password: Joi.string().required().label("Password"),
+	  email: Joi.string().email().required().label("Email"),
+	  password: Joi.string().required().label("Password"),
 	});
 	return schema.validate(data);
-};
-
-module.exports = router;
+  };
+  
+  module.exports = router;
