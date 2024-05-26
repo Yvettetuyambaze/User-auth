@@ -2,15 +2,15 @@
 This is a user authentication service that provides signup and signin functionalities. It includes both frontend and backend components, implemented using appropriate technologies and frameworks.
 # Table of Contents
 
-Installation
-Usage
-Technologies Used
-Folder Structure
-API Endpoints
-Security Measures
-Testing
-Contributing
-License
+- Installation
+- Usage
+- Technologies Used
+- Folder Structure
+- API Endpoints
+- Security Measures
+- Testing
+- Contributing
+- License
 
 # Installation
 
