@@ -37,7 +37,7 @@ JWT_SECRET=your-jwt-secret
 
 Create a .env file in the frontend directory.
 Specify the following variable:
-REACT_APP_API_URL=http://localhost:5000
+REACT_APP_API_URL=http://localhost:3000
 
 
 
@@ -78,27 +78,51 @@ Axios: For making HTTP requests to the backend API
 
 # Folder Structure
 User-auth/
+
   ├── backend/
+
   │   ├── config/
+
   │   ├── controllers/
+
   │   ├── models/
+
   │   ├── routes/
+   
+  │   ├── test/
+
   │   ├── .env
+
   │   ├── .gitignore
+
   │   ├── package.json
+
   │   └── server.js
+
   ├── frontend/
+
   │   ├── public/
+
   │   ├── src/
+
   │   │   ├── components/
+
   │   │   ├── pages/
+
   │   │   ├── services/
+
   │   │   ├── App.js
+
   │   │   └── index.js
+
   │   ├── .env
+
   │   ├── .gitignore
+
   │   ├── package.json
+
   │   └── README.md
+
   └── README.md
 
 # API Endpoints
