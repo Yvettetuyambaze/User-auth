@@ -1,8 +1,8 @@
 ## User Authentication Service
 This is a user authentication service that provides signup and signin functionalities. It includes both frontend and backend components, implemented using appropriate technologies and frameworks.
-Table of Contents
+# Table of Contents
 
-# Installation
+Installation
 Usage
 Technologies Used
 Folder Structure
