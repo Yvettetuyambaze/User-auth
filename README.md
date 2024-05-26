@@ -15,38 +15,38 @@ License
 # Installation
 
 Clone the repository:
-Copy codegit clone https://github.com/Yvettetuyambaze/User-auth.git
+git clone https://github.com/Yvettetuyambaze/User-auth.git
 
 Navigate to the project directory:
-Copy codecd User-auth
+cd User-auth
 
 Install dependencies for the backend:
-Copy codecd backend
+cd backend
 npm install
 
 Install dependencies for the frontend:
-Copy codecd ../frontend
+cd ../frontend
 npm install
 
 # Set up environment variables:
 
 Create a .env file in the backend directory.
 Specify the following variables:
-Copy codeMONGODB_URI=your-mongodb-connection-string
+MONGODB_URI=your-mongodb-connection-string
 JWT_SECRET=your-jwt-secret
 
 Create a .env file in the frontend directory.
 Specify the following variable:
-Copy codeREACT_APP_API_URL=http://localhost:5000
+REACT_APP_API_URL=http://localhost:5000
 
 
 
 # Start the backend server:
-Copy codecd ../backend
+cd ../backend
 npm start
 
 # Start the frontend development server:
-Copy codecd ../frontend
+cd ../frontend
 npm start
 
 
@@ -77,7 +77,7 @@ Axios: For making HTTP requests to the backend API
 
 
 # Folder Structure
-Copy codeUser-auth/
+User-auth/
   ├── backend/
   │   ├── config/
   │   ├── controllers/
