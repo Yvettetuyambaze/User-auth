@@ -2,11 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import styles from "./styles.module.css";
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -26,10 +28,11 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async (googleData) => {
+  const handleGoogleSuccess = async (response) => {
     try {
+      const tokenId = response.tokenId;
       const res = await axios.post('http://localhost:8080/api/auth/google', {
-        token: googleData.tokenId,
+        token: tokenId,
       });
       localStorage.setItem('token', res.data.data);
       window.location = '/';
@@ -37,6 +40,15 @@ const Login = () => {
       console.log(error);
       setError('Failed to authenticate with Google');
     }
+  };
+
+  const handleGoogleFailure = (error) => {
+    console.log(error);
+    setError('Failed to authenticate with Google');
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -47,8 +59,8 @@ const Login = () => {
           <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
             buttonText="Log in with Google"
-            onSuccess={handleGoogleLogin}
-            onFailure={handleGoogleLogin}
+            onSuccess={handleGoogleSuccess}
+            onFailure={handleGoogleFailure}
             cookiePolicy={'single_host_origin'}
             className={styles.google_btn}
           />
@@ -64,15 +76,24 @@ const Login = () => {
               required
               className={styles.input}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-              value={data.password}
-              required
-              className={styles.input}
-            />
+            <div className={styles.password_input}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                name="password"
+                onChange={handleChange}
+                value={data.password}
+                required
+                className={styles.input}
+              />
+              <button
+                type="button"
+                className={styles.password_toggle}
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             {error && <div className={styles.error_msg}>{error}</div>}
             <button type="submit" className={styles.green_btn}>
               Sign In
@@ -80,7 +101,7 @@ const Login = () => {
           </form>
         </div>
         <div className={styles.right}>
-          <h1>New Here ?</h1>
+          <h1>New Here?</h1>
           <Link to="/signup">
             <button type="button" className={styles.white_btn}>
               Sign Up

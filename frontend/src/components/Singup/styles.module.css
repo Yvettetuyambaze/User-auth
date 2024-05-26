@@ -139,3 +139,24 @@
     color: #999;
   }
   
+  .password_input {
+	position: relative;
+  }
+  
+  .password_toggle {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	cursor: pointer;
+	outline: none;
+  }
+  
+  .password_toggle svg {
+	width: 20px;
+	height: 20px;
+	color: #999;
+  }
+  
